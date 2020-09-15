@@ -1,11 +1,14 @@
 import React from "react";
-import App from "./App";
-import { render, waitFor } from "@testing-library/react";
+
+import {  render, waitFor } from "@testing-library/react";
+import { jest } from "@testing-library/jest-dom"
 import {fetchShow as mockFetchShow } from './api/fetchShow'
 import userEvent from "@testing-library/user-event";
+import App from '../App'
 
 
-const episodesData = [
+const episodeData = {
+    data:[
   {
     id: 2993,
     url: "http://www.tvmaze.com/shows/2993/stranger-things",
@@ -702,24 +705,27 @@ const episodesData = [
       ],
     },
   },
-];
+]
+}
 
 
-
-jest.mock("./api/fetchShow");
+// test ("render App without error",()=>{
+//   render(<App/>);
+// });
+jest.mockFetchShow("./api/fetchShow");
 test("render App without errors ", async () => {
   //mock the returned value of 'fetchShow'
   //mimic fetchShow fn without actually making API call
-  mockFetchShow.mockResolvedValueOnce(episodesData);  
+  mockFetchShow.mockResolvedValue(data);  
   //render App
   const { getByText, getAllByText } = render(<App />);
   // query for dropdown
   await waitFor(() => {
-    getByText(/selectaseason/i);
+    getByText(/Select a season/i);
   });
-  userEvent.click(getByText(/select a season/i));
+  userEvent.click(getByText(/Select a season/i));
   //make assertions
   //drop down shows season 1
-  expect(getAllByText(/season/i)).toHaveLength(2);
-  expect(mockFetchShow).toHaveBeenCalledTimes(3);
+  expect(getAllByText(/season/i)).toHaveLength(1);
+  expect(mockFetchShow).toHaveBeenCalledTimes(2);
 });

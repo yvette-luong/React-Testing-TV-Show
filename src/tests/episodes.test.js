@@ -1,8 +1,9 @@
 import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
+
 import Episodes from "../components/Episodes";
 
-const episodesData = [
+const episodeData = [
   {
     id: 2993,
     url: "http://www.tvmaze.com/shows/2993/stranger-things",
@@ -700,7 +701,7 @@ const episodesData = [
     },
   },
 ];
-    //render the episode components without errors
+    // render the episode components without errors
 test("render Episodes component", () => {
   render(<Episodes episodes={[]} />);
 });
@@ -708,9 +709,9 @@ test("render Episodes component", () => {
 test("component render as  props changes", () => {
   const { rerender } = render(<Episodes episodes={[]} />);
     // rerender with episodes data passed in
-  rerender(<Episodes episodes={episodesData}/>)
+  rerender(<Episodes episodes={episodeData}/>)
     //query from the missions that are being rendered
-    //assertions
-  const episodesList = screen.getAllByTestId(/episode/i);
-  expect(episodesList).toHaveLength(3);
+    // assertions
+  const episodeList = screen.getAllByTestId(/episode/i);
+  expect(episodeList).toHaveLength(1);
 });
